@@ -56,7 +56,7 @@
 				// console.log(this.user);
 				// With Firebase needs a node and a second argument for data being passed in (here data will be called users)
 				// Second argument here is the data we want to send in this post request (in get request 2nd arg is not needed)
-				this.$http.post('https://vuejs-http-example-ef7a8.firebaseio.com/users.json', this.user)
+				this.$http.post('', this.user)
 					// Promise (get back data in the future --async)
 					.then(response => {
 						console.log(response);
@@ -65,7 +65,8 @@
 					});
 			},
 			fetchData() {
-				this.$http.get('https://vuejs-http-example-ef7a8.firebaseio.com/users.json')
+				// url is set with 'root' key option in main.js
+				this.$http.get('')
 					.then(response => {
 						return response.json();
 					})
