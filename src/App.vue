@@ -1,18 +1,40 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                <h1>Http</h1>
-                <div class="form-group">
-                	<label>Username</label>
-                	<input type="text" class="form-control" v-model="user.username">
-                </div>
-                <div class="form-group">
-                	<label>Email</label>
-                	<input type="text" class="form-control" v-model="user.email">
-                </div>
-                <button class="btn btn-primary" @click="submit">Submit</button>
+           <h1 class="text-success">VUE.JS FIREBASE HTTP</h1>
+            <div class="col-md-6">
+							<div class="panel panel-success">
+								<div class="panel-heading">
+									<h2 class="panel-title">Submit Data to Firebase</h2>
+								</div>
+								<div class="panel-body">
+									<div class="form-group">
+										<label>Username</label>
+										<input type="text" class="form-control" v-model="user.username">
+									</div>
+									<div class="form-group">
+										<label>Email</label>
+										<input type="text" class="form-control" v-model="user.email">
+									</div>
+									<button class="btn btn-success" @click="submit">Submit</button>
+								</div>
+							</div>
             </div>
+            <div class="col-md-6">
+              <div class="panel panel-success">
+								<div class="panel-heading">
+									<h2 class="panel-title">Get Data from Firebase</h2>
+								</div>
+								<div class="panel-body">
+		              <ul class="list-group">
+		              	<li class="list-group-item" v-for="u in users">{{ u.username }} - {{ u.email }}</li>
+		              </ul>
+              	</div>
+              	<div class="panel-footer">
+              		<button class="btn btn-success" @click="fetchData">Get Users</button>
+              	</div>
+              </div>
+						</div>
         </div>
     </div>
 </template>
@@ -24,7 +46,9 @@
 				user: {
 					username: '',
 					email: ''
-				}
+				},
+				// empty array for getting (get request) our users
+				users: []
 			};
 		},
 		methods: {
@@ -38,6 +62,20 @@
 						console.log(response);
 					},	error => {
 						console.log(error);
+					});
+			},
+			fetchData() {
+				this.$http.get('https://vuejs-http-example-ef7a8.firebaseio.com/users.json')
+					.then(response => {
+						return response.json();
+					})
+					.then(users => {
+						// console.log(users)
+						const resultArray = [];
+						for (let key in users) {
+							resultArray.push(users[key]);
+						}
+						this.users = resultArray;
 					});
 			}
 		}
