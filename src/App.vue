@@ -40,47 +40,65 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				user: {
-					username: '',
-					email: ''
-				},
-				// empty array for getting (get request) our users
-				users: []
-			};
-		},
-		methods: {
-			submit() {
-				// console.log(this.user);
-				// With Firebase needs a node and a second argument for data being passed in (here data will be called users)
-				// Second argument here is the data we want to send in this post request (in get request 2nd arg is not needed)
-				this.$http.post('', this.user)
-					// Promise (get back data in the future --async)
-					.then(response => {
-						console.log(response);
-					},	error => {
-						console.log(error);
-					});
+export default {
+	data() {
+		return {
+			user: {
+				username: '',
+				email: ''
 			},
-			fetchData() {
-				// url is set with 'root' key option in main.js
-				this.$http.get('')
-					.then(response => {
-						return response.json();
-					})
-					.then(users => {
-						// console.log(users)
-						const resultArray = [];
-						for (let key in users) {
-							resultArray.push(users[key]);
-						}
-						this.users = resultArray;
-					});
-			}
+			// empty array for getting (get request) our users
+			users: [],
+			resource: {}
+		};
+	},
+	methods: {
+		submit() {
+			// console.log(this.user);
+			// With Firebase needs a node and a second argument for data being passed in (here data will be called users)
+			// Second argument here is the data we want to send in this post request (in get request 2nd arg is not needed)
+			// this.$http.post('users.json', this.user)
+			// 	// Promise (get back data in the future --async)
+			// 	.then(response => {
+			// 		console.log(response);
+			// 	},	error => {
+			// 		console.log(error);
+			// 	});
+
+			// https://github.com/pagekit/vue-resource/blob/develop/docs/resource.md
+			// DEFAULT ACTIONS:
+														// get: {method: 'GET'},
+														// save: {method: 'POST'},
+														// query: {method: 'GET'},
+														// update: {method: 'PUT'},
+														// remove: {method: 'DELETE'},
+														// delete: {method: 'DELETE'}
+			// this.resource.save({}, this.user);
+			this.resource.saveAlt(this.user);
+		},
+		fetchData() {
+			// url is set with 'root' key option in main.js
+			this.$http.get('users.json')
+				.then(response => {
+					return response.json();
+				})
+				.then(users => {
+					// console.log(users)
+					const resultArray = [];
+					for (let key in users) {
+						resultArray.push(users[key]);
+					}
+					this.users = resultArray;
+				});
 		}
+	},
+	created() {
+		const customActions = {
+			saveAlt: {method: 'POST', url: 'alternative.json'}
+		}
+		this.resource = this.$resource('users.json', {}, customActions);
 	}
+}
 </script>
 
 <style>
