@@ -12,13 +12,14 @@ Vue.http.options.root = 'https://vuejs-http-example-ef7a8.firebaseio.com/';
 // example of interceptor (will change our request to a PUT request)
 // intercept request
 // Vue.http.interceptors.push((request, next) => {
-// 	console.log(request);
-// 	if (request.method = 'POST') {
-// 		request.method = 'PUT';
-// 	}
-// 	next(response => {
-// 			// intercept response
-// 	});
+//   console.log(request);
+//   if (request.method == 'POST') {
+//     request.method = 'PUT';
+//   }
+//   next(response => {
+//   	// intercept response
+//     response.json = () => { return {messages: response.body} }
+//   });
 // });
 
 new Vue({
