@@ -31,6 +31,13 @@
 		              </ul>
               	</div>
               	<div class="panel-footer">
+              		<div class="form-group">
+									  <label for="select-this">Choose type:</label>
+									  <select class="form-control" id="select-this" v-model="node">
+									    <option>users</option>
+									    <option>alternative</option>
+									  </select>
+									</div>
               		<button class="btn btn-success" @click="fetchData">Get Users</button>
               	</div>
               </div>
@@ -49,7 +56,9 @@ export default {
 			},
 			// empty array for getting (get request) our users
 			users: [],
-			resource: {}
+			resource: {},
+			// node will be users by default but can be altered
+			node: 'users'
 		};
 	},
 	methods: {
@@ -78,7 +87,21 @@ export default {
 		},
 		fetchData() {
 			// url is set with 'root' key option in main.js
-			this.$http.get('users.json')
+			// this.$http.get('users.json')
+			// 	.then(response => {
+			// 		return response.json();
+			// 	})
+			// 	.then(users => {
+			// 		// console.log(users)
+			// 		const resultArray = [];
+			// 		for (let key in users) {
+			// 			resultArray.push(users[key]);
+			// 		}
+			// 		this.users = resultArray;
+			// 	});
+
+			// this.node is getting passed in from our select form
+			this.resource.getUsers({node: this.node})
 				.then(response => {
 					return response.json();
 				})
@@ -94,9 +117,11 @@ export default {
 	},
 	created() {
 		const customActions = {
-			saveAlt: {method: 'POST', url: 'alternative.json'}
+			saveAlt: {method: 'POST', url: 'alternative.json'},
+			getUsers: {method: 'GET'}
 		}
-		this.resource = this.$resource('users.json', {}, customActions);
+		// pass in {node} variable
+		this.resource = this.$resource('{node}.json', {}, customActions);
 	}
 }
 </script>
