@@ -27,19 +27,19 @@
 								</div>
 								<div class="panel-body">
 		              <ul class="list-group">
-		              	<li class="list-group-item" v-for="u in users">{{ u.username }} - {{ u.email }}</li>
+		              	<li class="list-group-item" v-for="u in users">{{ u.username }} - {{ u.email }} {{u.key}}</li>
 		              </ul>
               	</div>
               	<div class="panel-footer">
               		<div class="form-group">
 									  <label for="select-this">Choose type:</label>
-									  <select class="form-control" id="select-this" v-model="node">
+									  <select class="form-control" id="select-this" @change="fetchUsers" v-model="node">
 									    <option>users</option>
 									    <option>alternative</option>
 									  </select>
 									</div>
-              		<button class="btn btn-success" @click="fetchUsers">Get Users</button>
-              		<!-- <button class="btn btn-danger" @click="deleteUsers">Delete User</button> -->
+              		<!-- <button class="btn btn-success" @click="fetchUsers">Get Users</button> -->
+              		<button class="btn btn-danger" @click="deleteUsers">Delete User</button>
               	</div>
               </div>
 						</div>
@@ -83,8 +83,8 @@ export default {
 														// update: {method: 'PUT'},
 														// remove: {method: 'DELETE'},
 														// delete: {method: 'DELETE'}
-			// this.resource.save({node: 'users'}, this.user);
-			this.resource.saveAlt(this.user);
+			this.resource.save({node: 'users'}, this.user);
+			// this.resource.saveAlt(this.user);
 		},
 		fetchUsers() {
 			// url is set with 'root' key option in main.js
@@ -107,7 +107,7 @@ export default {
 					return response.json();
 				})
 				.then(users => {
-					// console.log(users)
+					console.log(users)
 					const resultArray = [];
 					for (let key in users) {
 						resultArray.push(users[key]);
@@ -116,9 +116,12 @@ export default {
 				});
 		},
 		deleteUsers() {
-			// this will delete ALL users:
-			// this.resource.delete({}, this.user);
-			this.resource.delete({}, this.user[key]);
+		  resource.delete({key})
+		  	.then(response => {
+		    // success callback
+		  }, response => {
+		    // error callback
+		  });
 		}
 	},
 	created() {
