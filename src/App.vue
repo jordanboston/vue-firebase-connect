@@ -38,7 +38,8 @@
 									    <option>alternative</option>
 									  </select>
 									</div>
-              		<button class="btn btn-success" @click="fetchData">Get Users</button>
+              		<button class="btn btn-success" @click="fetchUsers">Get Users</button>
+              		<!-- <button class="btn btn-danger" @click="deleteUsers">Delete User</button> -->
               	</div>
               </div>
 						</div>
@@ -82,10 +83,10 @@ export default {
 														// update: {method: 'PUT'},
 														// remove: {method: 'DELETE'},
 														// delete: {method: 'DELETE'}
-			// this.resource.save({}, this.user);
+			// this.resource.save({node: 'users'}, this.user);
 			this.resource.saveAlt(this.user);
 		},
-		fetchData() {
+		fetchUsers() {
 			// url is set with 'root' key option in main.js
 			// this.$http.get('users.json')
 			// 	.then(response => {
@@ -113,6 +114,11 @@ export default {
 					}
 					this.users = resultArray;
 				});
+		},
+		deleteUsers() {
+			// this will delete ALL users:
+			// this.resource.delete({}, this.user);
+			this.resource.delete({}, this.user[key]);
 		}
 	},
 	created() {
