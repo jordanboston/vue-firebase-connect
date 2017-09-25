@@ -28,7 +28,7 @@
 								<div class="panel-body">
 		              <ul class="list-group">
 		              	<li class="list-group-item" v-for="(u, index) in users" :key="u.key">
-		              		{{ u.username }} - {{ u.email }} <button class="btn btn-danger" @click="deleteUsers(index, u.key)">Delete User</button>
+		              		{{ u.username }} - {{ u.email }} <button class="glyphicon glyphicon-trash btn btn-danger" @click="deleteUsers(index, u.key)"></button>
 		              	</li>
 		              </ul>
               	</div>
