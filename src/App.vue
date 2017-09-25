@@ -27,15 +27,15 @@
 								</div>
 								<div class="panel-body">
 		              <ul class="list-group">
-		              	<li class="list-group-item" v-for="u in users" :key="u.key">
-		              		{{u.key}} {{ u.username }} - {{ u.email }} <button class="btn btn-danger" @click="deleteUsers(u.key)">Delete User</button>
+		              	<li class="list-group-item" v-for="(u, index) in users" :key="u.key">
+		              		{{ u.username }} - {{ u.email }} <button class="btn btn-danger" @click="deleteUsers(index, u.key)">Delete User</button>
 		              	</li>
 		              </ul>
               	</div>
               	<div class="panel-footer">
               		<div class="form-group">
-									  <label for="select-this">Choose type:</label>
-									  <select class="form-control" id="select-this" v-model="node">
+									  <label for="selectThis">Choose type:</label>
+									  <select class="form-control" id="selectThis" v-model="node">
 									    <option>users</option>
 									    <option>alternative</option>
 									  </select>
@@ -113,17 +113,23 @@ export default {
 					// console.log(users);
 
 					//  IMPORTANT!!!
+					// this is needed so that we will have a key for the Firebase object that allows us to use it when deleting a user
 					let resultArray = Object.entries(users).map(e => Object.assign(e[1], { key: e[0] }));
 
 					this.users = resultArray;
-					console.log(resultArray);
+					// console.log(resultArray);
 				});
 		},
-		deleteUsers(key) {
+		deleteUsers(index, key) {
 			// Deletes ALL users
     	// this.resource.deleteUser({node: 'users'});
+			// console.log('Object: ' + this.users + ' Key: ' + key);
 
-      this.resource.deleteUser({node: 'users/' + key});
+      this.resource.deleteUser({node: 'users/' + key})
+       	.then(response => {
+       		//
+      		this.$delete(this.users, index);
+      	});
 		}
 	},
 	created() {
