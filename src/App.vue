@@ -27,19 +27,21 @@
 								</div>
 								<div class="panel-body">
 		              <ul class="list-group">
-		              	<li class="list-group-item" v-for="u in users">{{ u.username }} - {{ u.email }} {{u.key}}</li>
+		              	<li class="list-group-item" v-for="u in users" :key="u.key">
+		              		{{u.key}} {{ u.username }} - {{ u.email }} <button class="btn btn-danger" @click="deleteUsers(u.key)">Delete User</button>
+		              	</li>
 		              </ul>
               	</div>
               	<div class="panel-footer">
               		<div class="form-group">
 									  <label for="select-this">Choose type:</label>
-									  <select class="form-control" id="select-this" @change="fetchUsers" v-model="node">
+									  <select class="form-control" id="select-this" v-model="node">
 									    <option>users</option>
 									    <option>alternative</option>
 									  </select>
 									</div>
-              		<!-- <button class="btn btn-success" @click="fetchUsers">Get Users</button> -->
-              		<button class="btn btn-danger" @click="deleteUsers">Delete User</button>
+              		<button class="btn btn-success" @click="fetchUsers">Get Users</button>
+              		<!-- <button class="btn btn-danger" @click="deleteUsers(u)">Delete ALL Users</button> -->
               	</div>
               </div>
 						</div>
@@ -52,6 +54,7 @@ export default {
 	data() {
 		return {
 			user: {
+				key: '',
 				username: '',
 				email: ''
 			},
@@ -107,27 +110,27 @@ export default {
 					return response.json();
 				})
 				.then(users => {
-					console.log(users)
-					const resultArray = [];
-					for (let key in users) {
-						resultArray.push(users[key]);
-					}
+					// console.log(users);
+
+					//  IMPORTANT!!!
+					let resultArray = Object.entries(users).map(e => Object.assign(e[1], { key: e[0] }));
+
 					this.users = resultArray;
+					console.log(resultArray);
 				});
 		},
-		deleteUsers() {
-		  resource.delete({key})
-		  	.then(response => {
-		    // success callback
-		  }, response => {
-		    // error callback
-		  });
+		deleteUsers(key) {
+			// Deletes ALL users
+    	// this.resource.deleteUser({node: 'users'});
+
+      this.resource.deleteUser({node: 'users/' + key});
 		}
 	},
 	created() {
 		const customActions = {
 			saveAlt: {method: 'POST', url: 'alternative.json'},
-			getUsers: {method: 'GET'}
+			getUsers: {method: 'GET'},
+			deleteUser: {method: 'DELETE'}
 		}
 		// pass in {node} variable
 		this.resource = this.$resource('{node}.json', {}, customActions);
