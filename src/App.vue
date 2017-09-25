@@ -126,6 +126,7 @@ export default {
        	.then(response => {
        		// this removes the user from the DOM using the index
       		this.$delete(this.users, index);
+      		this.$toastr('success', 'You have deleted that user.', 'User Deleted!');
       	});
 		}
 	},

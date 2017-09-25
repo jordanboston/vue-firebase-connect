@@ -2,6 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueResource from 'vue-resource'
 
+import VueToastr from '@deveodk/vue-toastr'
+
+Vue.use(VueToastr);
+
 Vue.use(VueResource);
 
 //  Setup VueResoure global options: https://github.com/pagekit/vue-resource/blob/develop/docs/api.md
