@@ -121,13 +121,10 @@ export default {
 				});
 		},
 		deleteUsers(index, key) {
-			// Deletes ALL users
-    	// this.resource.deleteUser({node: 'users'});
-			// console.log('Object: ' + this.users + ' Key: ' + key);
-
+			// pass in key which is the Firebase object key/id and use it in the delete request url
       this.resource.deleteUser({node: 'users/' + key})
        	.then(response => {
-       		//
+       		// this removes the user from the DOM using the index
       		this.$delete(this.users, index);
       	});
 		}
