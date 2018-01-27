@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueResource from 'vue-resource'
+import configKeys from './config.js'
 
 import VueToastr from '@deveodk/vue-toastr'
 
@@ -29,11 +30,8 @@ Vue.http.options.root = 'https://vuejs-http-example-ef7a8.firebaseio.com/';
 var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 // Setup Firebase
-var config = {
-	apiKey: "AIzaSyCw0xiOz226edS1oLaoiZTPLEfF8i_q67o",
-  authDomain: "vuejs-http-example-ef7a8.firebaseapp.com",
-  databaseURL: "https://vuejs-http-example-ef7a8.firebaseio.com"
-}
+var config = configKeys;
+
 // firebase.initializeApp(config)
 
 // var usersRef = firebase.database().ref('users')
