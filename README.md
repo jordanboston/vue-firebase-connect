@@ -1,6 +1,6 @@
-# Firebase Connect Vue.js
+# Vue Firebase Connect
 
-> A Vue.js project
+Just messing around with Google Firebase and Vue.js.
 
 ## Build Setup
 
@@ -19,8 +19,9 @@ npm run build
 
 This little app connects to a Firebase example database using vue-resource
 * create users
-* show all users
+* get/show all users
 * delete individual users
 
+* API Keys are in config.js which is not committed but being used as a module.
 
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
